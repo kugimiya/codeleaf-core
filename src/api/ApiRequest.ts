@@ -1,16 +1,26 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import Interceptor, { InjectorOptions } from './Interceptor';
 
-class ApiRequest {
+class ApiRequest<AuthTokenType> {
   instance: AxiosInstance;
 
-  constructor(API_BASE_URL: string) {
+  tokenInjector: (req: AxiosRequestConfig) => AxiosRequestConfig;
+
+  constructor(
+      baseUrl: string,
+      interceptorInjectOptions: InjectorOptions<AuthTokenType>,
+      tokenInjector: (req: AxiosRequestConfig) => AxiosRequestConfig,
+  ) {
     this.instance = axios.create({
-      baseURL: API_BASE_URL,
+      baseURL: baseUrl,
     });
+
+    Interceptor<AuthTokenType>(this.instance, interceptorInjectOptions);
+    this.tokenInjector = tokenInjector;
   }
 
-  request<ResponseDto>(config: AxiosRequestConfig): Promise<AxiosResponse<ResponseDto>> {
-    return this.instance.request<ResponseDto>(config);
+  request<ResponseDto>(config: AxiosRequestConfig & { skipAuthInject?: boolean }): Promise<AxiosResponse<ResponseDto>> {
+    return this.instance.request<ResponseDto>(config.skipAuthInject ? config : this.tokenInjector(config));
   }
 }
 
