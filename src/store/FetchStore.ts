@@ -8,7 +8,7 @@ export type FetchState<T> = {
   error: AxiosError<T> | null;
 };
 
-export default class FetchStore<ResponseDto> extends BaseStore<FetchState<ResponseDto>> {
+export default class FetchStore<ResponseDto = any> extends BaseStore<FetchState<ResponseDto>> {
   constructor(label?: string) {
     super({ isLoading: false, isInitialized: false, error: null }, label);
   }

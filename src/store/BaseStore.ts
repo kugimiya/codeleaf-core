@@ -8,7 +8,7 @@ export type CommitOptions = {
 
 export type AsyncCommitOptions<K, L> = {
   promise: Promise<K>;
-  mapper: (dto: K) => L;
+  mapper?: (dto: K) => L;
   commitOptions?: CommitOptions;
   onFinish?: () => void;
   fetch?: FetchStore<K>;
@@ -16,7 +16,7 @@ export type AsyncCommitOptions<K, L> = {
 
 const debugAnyCommit = true;
 
-export default class BaseStore<T extends object> {
+export default abstract class BaseStore<T = any> {
   label = 'Unlabeled Store';
 
   @observable
@@ -32,17 +32,29 @@ export default class BaseStore<T extends object> {
 
   @action.bound
   commit(state: Partial<T>, options?: CommitOptions): void {
+    let nextState: Partial<T> = {};
+
+    if (options?.specificPath) {
+      const pathSiblings = options.specificPath.split('.');
+      nextState = pathSiblings.reverse().reduce<Partial<T>>((acc, cur) => ({ [cur]: acc } as Partial<T>), state);
+    } else {
+      nextState = state;
+    }
+
     if (debugAnyCommit) {
       /* eslint-disable */
       console.group(this.label);
       console.log('current state: ', toJS(this.state));
       console.log('data for commit: ', toJS(state));
-      console.log('next state: ', toJS({ ...this.state, ...state }));
+      if (options?.specificPath) {
+        console.log(`will be written to: { ${options.specificPath} }`);
+      }
+      console.log('next state: ', toJS({ ...this.state, ...nextState }));
       console.groupEnd();
       /* eslint-enable */
     }
 
-    this.state = { ...this.state, ...state };
+    this.state = { ...this.state, ...nextState };
   }
 
   @action.bound
@@ -53,7 +65,11 @@ export default class BaseStore<T extends object> {
 
     params.promise
       .then((value) => {
-        this.commit(params.mapper(value), params.commitOptions);
+        if (params.mapper !== undefined) {
+          this.commit(params.mapper(value), params.commitOptions);
+        } else {
+          this.commit(value, params.commitOptions);
+        }
 
         if (params.onFinish) {
           params.onFinish();
