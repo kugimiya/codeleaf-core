@@ -17,10 +17,6 @@ export type PageModuleConfig<Store, Service> = {
 export type PageModuleInstance<Store, Service> = {
   Component: React.FC;
   Store: Store;
-  Context: React.Context<{
-    store: Store;
-    service: Service;
-  }>;
   Service: Service;
 };
 
@@ -35,19 +31,11 @@ export function CreatePageModule<Store, Service>(moduleConfig: PageModuleConfig<
   const createdStore = new StoreClass(...(StoreDeps || []).map(ClassTupleCreator));
   const createdService = new ServiceClass(...(ServiceDeps || []).map(ClassTupleCreator));
 
-  const Context = React.createContext({ store: createdStore, service: createdService });
   const Component = moduleConfig.component;
 
   return {
-    Component: (): React.ReactElement => {
-      return (
-        <Context.Provider value={{ store: createdStore, service: createdService }}>
-          <Component />
-        </Context.Provider>
-      );
-    },
+    Component,
     Store: createdStore,
     Service: createdService,
-    Context,
   };
 }
