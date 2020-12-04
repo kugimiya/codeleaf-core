@@ -2,9 +2,9 @@ import React from 'react';
 import { Newable } from '../utils.types';
 
 export type ClassTuple<T = any> = {
-  ClassName: Newable<T> | T;
-  Args?: ConstructorParameters<Newable<T>>;
-  DontCreate?: boolean;
+  target: Newable<T> | T;
+  args?: ConstructorParameters<Newable<T>>;
+  instance?: boolean;
 };
 
 export type PageModuleConfig<Store, Service> = {
@@ -24,8 +24,8 @@ export type PageModuleInstance<Store, Service> = {
   Service: Service;
 };
 
-export function ClassTupleCreator({ ClassName, Args = [], DontCreate = false }: ClassTuple): ClassTuple['ClassName'] {
-  return DontCreate ? ClassName : new ClassName(...Args);
+export function ClassTupleCreator({ target, args = [], instance = false }: ClassTuple): ClassTuple['target'] {
+  return instance ? target : new target(...args);
 }
 
 export function CreatePageModule<Store, Service>(moduleConfig: PageModuleConfig<Store, Service>): PageModuleInstance<Store, Service> {

@@ -1,6 +1,6 @@
 import { action, makeObservable, observable, reaction, toJS } from "mobx";
 import { FetchStore } from "..";
-import { Primitive } from "../types";
+import { Primitive } from "../utils.types";
 import { lensWrapper } from "../utils/lensWrapper";
 
 type CommitOptions<T> = {

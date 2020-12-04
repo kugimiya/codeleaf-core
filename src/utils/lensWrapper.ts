@@ -1,5 +1,5 @@
 import { runInAction } from "mobx";
-import { UnpackedArray } from "../types";
+import { UnpackedArray } from "../utils.types";
 
 export const lensWrapper = function <T extends Record<string, any> | Array<any>, Tmp = any>(obj: T, prevKey?: keyof Tmp, prevObj?: Tmp) { // TODO: fix 'Tmp' values
   return ({
