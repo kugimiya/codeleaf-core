@@ -2,9 +2,9 @@ import React from 'react';
 import { Newable } from '../utils.types';
 
 export type ClassTuple<T = any> = {
-  ClassName: Newable<T> | T;
-  Args?: ConstructorParameters<Newable<T>>;
-  DontCreate?: boolean;
+  target: Newable<T> | T;
+  args?: ConstructorParameters<Newable<T>>;
+  instance?: boolean;
 };
 
 export type PageModuleConfig<Store, Service> = {
@@ -17,15 +17,11 @@ export type PageModuleConfig<Store, Service> = {
 export type PageModuleInstance<Store, Service> = {
   Component: React.FC;
   Store: Store;
-  Context: React.Context<{
-    store: Store;
-    service: Service;
-  }>;
   Service: Service;
 };
 
-export function ClassTupleCreator({ ClassName, Args = [], DontCreate = false }: ClassTuple): ClassTuple['ClassName'] {
-  return DontCreate ? ClassName : new ClassName(...Args);
+export function ClassTupleCreator({ target, args = [], instance = false }: ClassTuple): ClassTuple['target'] {
+  return instance ? target : new target(...args);
 }
 
 export function CreatePageModule<Store, Service>(moduleConfig: PageModuleConfig<Store, Service>): PageModuleInstance<Store, Service> {
@@ -35,19 +31,11 @@ export function CreatePageModule<Store, Service>(moduleConfig: PageModuleConfig<
   const createdStore = new StoreClass(...(StoreDeps || []).map(ClassTupleCreator));
   const createdService = new ServiceClass(...(ServiceDeps || []).map(ClassTupleCreator));
 
-  const Context = React.createContext({ store: createdStore, service: createdService });
   const Component = moduleConfig.component;
 
   return {
-    Component: (): React.ReactElement => {
-      return (
-        <Context.Provider value={{ store: createdStore, service: createdService }}>
-          <Component />
-        </Context.Provider>
-      );
-    },
+    Component,
     Store: createdStore,
     Service: createdService,
-    Context,
   };
 }

@@ -1,39 +1,35 @@
 {
   "name": "@codeleaf-sdk/core",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
-    "axios": "^0.20.0",
-    "mobx": "^6.0.1",
-    "mobx-react": "^7.0.0",
-    "react": "^16.13.1",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
+    "axios": "^0.21.0",
+    "mobx": "^6.0.4",
+    "mobx-react": "^7.0.5",
+    "react": "^17.0.1",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
-    "@typescript-eslint/eslint-plugin": "^2.7.0",
-    "@typescript-eslint/parser": "^2.7.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.6.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-airbnb-typescript": "^11.0.0",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-config-react-app": "^5.0.2",
-    "eslint-plugin-flowtype": "^3.13.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "http-proxy-middleware": "^1.0.5",
-    "prettier": "^2.1.2",
-    "react-scripts": "3.4.3",
-    "typescript": "~3.7.2"
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "http-proxy-middleware": "^1.0.6",
+    "prettier": "^2.2.0",
+    "react-scripts": "4.0.1",
+    "typescript": "~4.1.2"
   },
   "scripts": {
     "build": "tsc",
@@ -41,14 +37,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codelef-sdk/core.git"
+    "url": "git+https://github.com/codeleaf-sdk/core.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "private": false,
   "bugs": {
-    "url": "https://github.com/codelef-sdk/core/issues"
+    "url": "https://github.com/codeleaf-sdk/core/issues"
   },
-  "homepage": "https://github.com/codelef-sdk/core#readme"
+  "homepage": "https://github.com/codeleaf-sdk/core#readme"
 }
