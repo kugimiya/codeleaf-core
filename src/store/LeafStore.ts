@@ -16,10 +16,10 @@ type AsyncCommitOptions<T = any, S = any, K = any> = {
   onFinish?: (result: T, mapped?: K) => void;
 }
 
-export default class LeafStore<StoreState extends Record<string, Primitive | Array<Primitive>>> {
+export default class LeafStore<StoreState extends object> {
   state: StoreState;
 
-  constructor(state: StoreState) {
+  constructor(state: StoreState, readonly label: string = 'Unlabeled Store') {
     this.state = {} as StoreState; // IDK, need this?
     this.commit(state);
 
@@ -95,10 +95,12 @@ export default class LeafStore<StoreState extends Record<string, Primitive | Arr
 
     if (value instanceof Array) {
       if (!this.state[key]) {
-        this.state[key] = [] as StoreState[K];
+        this.state[key] = [] as unknown as StoreState[K]; // Why `as unknown`? 
       }
 
-      (this.state[key] as any[]).push(...value);
+      if (this.state[key] instanceof Array) {
+        (this.state[key] as unknown as Array<any>).push(...value);
+      }
 
       setted = true;
     }
