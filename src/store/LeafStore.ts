@@ -82,6 +82,7 @@ export default class LeafStore<StoreState extends Record<string, Primitive | Arr
 
     if (options.path && partialState instanceof Object && this.state[options.path] instanceof Object) {
       this.updateField(partialState as StoreState[keyof StoreState], options.path);
+      return;
     }
 
     for (const fieldKey in partialState) {
