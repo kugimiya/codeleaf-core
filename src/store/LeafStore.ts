@@ -75,7 +75,7 @@ export default class LeafStore<StoreState extends object> {
     );
   }
 
-  commit(partialState: Partial<StoreState>, options: CommitOptions<StoreState> = {}): void {
+  commit(partialState: Partial<StoreState>, options: CommitOptions<StoreState> = {}): void { // TODO: add 'force' or 'append' option for arrays (forst for overwrite, second means default overwrite and options prevent default behavior)
     if (!this.state) {
       this.state = {} as StoreState;
     }
@@ -93,19 +93,23 @@ export default class LeafStore<StoreState extends object> {
   updateField<K extends keyof StoreState>(value: StoreState[K], key: K): void {
     let setted = false;
 
-    if (value instanceof Array) {
+    if (value instanceof Array && !setted) {
       if (!this.state[key]) {
         this.state[key] = [] as unknown as StoreState[K]; // Why `as unknown`? 
       }
 
       if (this.state[key] instanceof Array) {
-        (this.state[key] as unknown as Array<any>).push(...value);
+        if (value.length) {
+          (this.state[key] as unknown as Array<any>).push(...value);
+        } else {
+          (this.state[key] as unknown as Array<any>) = value;
+        }
       }
 
       setted = true;
     }
 
-    if (value instanceof Object) {
+    if (value instanceof Object && !setted) {
       if (!this.state[key]) {
         this.state[key] = {} as StoreState[K];
       }
