@@ -1,10 +1,19 @@
 import { action, makeObservable, observable, reaction, toJS } from "mobx";
+import { FetchStore } from "..";
 import { Primitive } from "../types";
 import { lensWrapper } from "../utils/lensWrapper";
 
 type CommitOptions<T> = {
   path?: keyof T;
   findBy?: keyof T[keyof T];
+}
+
+type AsyncCommitOptions<T = any, S = any, K = any> = {
+  promise: Promise<T>;
+  commit: CommitOptions<S>;
+  fetch?: FetchStore;
+  mapper?: (dto: T) => K;
+  onFinish?: (result: T, mapped?: K) => void;
 }
 
 export default class LeafStore<StoreState extends Record<string, Primitive | Array<Primitive>>> {
@@ -21,8 +30,49 @@ export default class LeafStore<StoreState extends Record<string, Primitive | Arr
     });
   }
 
-  lens() {
+  lens() { // TODO: add there 'first-key', cause we dont want write .for('field') if '.for'-selector called only once 
     return lensWrapper<StoreState>(this.state);
+  }
+
+  asyncCommit<T = any, K = T>(options: AsyncCommitOptions<T, StoreState, K>): Promise<T | void> {
+    if (options.fetch) {
+      options.fetch.setLoading();
+    }
+
+    return options.promise.then(
+      (value) => {
+        if (options.mapper !== undefined) {
+          this.commit(options.mapper(value), options.commit);
+        } else {
+          this.commit(value, options.commit);
+        }
+
+        if (options.onFinish) {
+          if (options.mapper !== undefined) {
+            options.onFinish(value, options.mapper(value));
+          } else {
+            options.onFinish(value);
+          }
+        }
+
+        return value;
+      }
+    ).catch(
+      (error) => {
+        if (options.fetch) {
+          options.fetch.setFailed(error);
+        }
+
+        // eslint-disable-next-line no-console
+        console.error(error); // TODO: make feature-flag named 'asyncCommitFailedVerbosity'
+      }
+    ).finally(
+      () => {
+        if (options.fetch) {
+          options.fetch.setDone();
+        }
+      }
+    );
   }
 
   commit(partialState: Partial<StoreState>, options: CommitOptions<StoreState> = {}): void {
@@ -39,7 +89,7 @@ export default class LeafStore<StoreState extends Record<string, Primitive | Arr
     }
   }
 
-  updateField<K extends keyof StoreState>(value: StoreState[K], key: K) {
+  updateField<K extends keyof StoreState>(value: StoreState[K], key: K): void {
     let setted = false;
 
     if (value instanceof Array) {
