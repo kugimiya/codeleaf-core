@@ -20,6 +20,7 @@ export default class LeafStore<StoreState extends object> {
   state: StoreState;
 
   constructor(state: StoreState, readonly label: string = 'Unlabeled Store') {
+    console.warn('DEPRECATION: please, use Store instead of LeafStore');
     this.state = {} as StoreState; // IDK, need this?
     this.commit(state);
 

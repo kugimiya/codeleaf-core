@@ -23,7 +23,7 @@ export default abstract class BaseStore<T = any> {
   state: T;
 
   constructor(state: T, label?: string) {
-    console.warn('DEPRECATION: please, use LeafStore instead of BaseStore');
+    console.warn('DEPRECATION: please, use Store instead of BaseStore');
     this.state = state;
 
     if (label) {
