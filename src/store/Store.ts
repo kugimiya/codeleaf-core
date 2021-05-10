@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
-import { DeepGet, DeepKeys } from '../utils.types';
+import { DeepGet, DeepKeys } from '../utils/types';
 
 export default class Store<T extends Record<string, unknown>> {
   state: T;
