@@ -1,5 +1,5 @@
 import React from 'react';
-import { Newable } from '../utils.types';
+import { Newable } from '../utils/types';
 
 export type ClassTuple<T = any> = {
   target: Newable<T> | T;

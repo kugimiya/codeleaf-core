@@ -1,26 +1,24 @@
 import { action, computed, makeObservable } from 'mobx';
-import { AxiosError } from 'axios';
-import { LeafStore } from '..';
+import Store from './Store';
 
-export type FetchState<T> = {
+export type FetchState = {
   isLoading: boolean;
   isInitialized: boolean;
-  error: AxiosError<T> | null;
+  isFailed: boolean;
 };
 
-export default class FetchStore<ResponseDto = any> extends LeafStore<FetchState<ResponseDto>> {
-  constructor(label?: string) {
-    super({ isLoading: false, isInitialized: false, error: null }, label);
+export default class FetchStore extends Store<FetchState> {
+  constructor() {
+    super({ isLoading: false, isInitialized: false, isFailed: false });
 
     makeObservable(this, {
       isLoading: computed,
       isInitialized: computed,
-      loaded: computed,
-      failed: computed,
+      isLoaded: computed,
+      isFailed: computed,
       setLoading: action,
       setDone: action,
       setFailed: action,
-      clear: action,
     });
   }
 
@@ -32,31 +30,27 @@ export default class FetchStore<ResponseDto = any> extends LeafStore<FetchState<
     return this.state.isInitialized;
   }
 
-  get error(): AxiosError<ResponseDto> | null {
-    return this.state.error;
+  get isFailed(): boolean {
+    return this.state.isFailed;
   }
 
-  get loaded(): boolean {
+  get isLoaded(): boolean {
     return !this.isLoading && this.isInitialized;
   }
 
-  get failed(): boolean {
-    return this.error !== null;
-  }
-
   setLoading(): void {
-    this.commit({ isLoading: true });
+    this.set('isLoading', true);
   }
 
   setDone(): void {
-    this.commit({ isLoading: false, isInitialized: true });
+    this.set('isLoading', false);
+    this.set('isInitialized', true);
+    this.set('isFailed', false);
   }
 
-  setFailed(error: AxiosError<ResponseDto>): void {
-    this.commit({ isLoading: false, isInitialized: true, error });
-  }
-
-  clear(): void {
-    this.commit({ isLoading: false, isInitialized: false, error: null });
+  setFailed(): void {
+    this.set('isLoading', false);
+    this.set('isInitialized', true);
+    this.set('isFailed', true);
   }
 }

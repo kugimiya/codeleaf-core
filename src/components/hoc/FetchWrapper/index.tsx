@@ -2,19 +2,19 @@ import React, { ReactElement } from 'react';
 import { observer } from 'mobx-react';
 import FetchStore from '../../../store/FetchStore';
 
-interface FetchWrapperProps<T> {
-  fetch: FetchStore<T>;
+interface FetchWrapperProps {
+  fetch: FetchStore;
   isLoading: () => ReactElement;
   error: () => ReactElement;
   isInitialized: () => ReactElement;
 }
 
-const FetchWrapper = <T,>({ fetch, isLoading, error, isInitialized }: FetchWrapperProps<T>): JSX.Element => {
+const FetchWrapper = <T,>({ fetch, isLoading, error, isInitialized }: FetchWrapperProps): JSX.Element => {
   if (fetch.isLoading) {
     return isLoading();
   }
 
-  if (fetch.error) {
+  if (fetch.isFailed) {
     return error();
   }
 

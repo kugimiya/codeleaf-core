@@ -1,14 +1,14 @@
 import { computed, makeObservable } from 'mobx';
-import BaseStore from './BaseStore';
+import Store from './Store';
 
 export type PaginationState = {
   limit: number;
   page: number;
 };
 
-export default class PaginationStore extends BaseStore<PaginationState> {
-  constructor(label?: string) {
-    super({ limit: 10, page: 1 }, label);
+export default class PaginationStore extends Store<PaginationState> {
+  constructor() {
+    super({ limit: 10, page: 1 });
 
     makeObservable(this, {
       page: computed,
