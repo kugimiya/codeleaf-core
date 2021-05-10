@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import { observer } from 'mobx-react';
+import React, { ReactElement, FC } from 'react';
+import { observer } from 'mobx-react-lite';
 import FetchStore from '../../../store/FetchStore';
 
 interface FetchWrapperProps {
@@ -9,7 +9,7 @@ interface FetchWrapperProps {
   isInitialized: () => ReactElement;
 }
 
-const FetchWrapper = <T,>({ fetch, isLoading, error, isInitialized }: FetchWrapperProps): JSX.Element => {
+const FetchWrapper: FC<FetchWrapperProps> = ({ fetch, isLoading, error, isInitialized }) => {
   if (fetch.isLoading) {
     return isLoading();
   }
