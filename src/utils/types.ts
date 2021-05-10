@@ -21,3 +21,11 @@ export type DeepKeys<O> = O extends object
       : `${K & string}` | GlueToPath<K & string, DeepKeys<O[K]>>
   }[keyof O]
   : ''
+
+export type DeepKeysFiltered<
+  Union extends string,
+  Dict extends object,
+  FilterType = string
+> = {
+  [K in Union]: DeepGet<K, Dict> extends FilterType ? K : never
+}[Union];
