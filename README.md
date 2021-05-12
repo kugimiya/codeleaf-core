@@ -1,6 +1,6 @@
 # @codeleaf-sdk/core
 [![npm version](https://badge.fury.io/js/%40codeleaf-sdk%2Fcore.svg)](https://badge.fury.io/js/%40codeleaf-sdk%2Fcore)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/@codeleaf-sdk/core?label=gzipped)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@codeleaf-sdk/core@2.1.3?label=gzipped)
 
 _Очень простое управление микро-архитектурой приложения_
 
