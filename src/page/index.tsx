@@ -1,4 +1,3 @@
-import React from 'react';
 import { Newable } from '../utils/types';
 
 export type ClassTuple<T = any> = {
@@ -8,14 +7,11 @@ export type ClassTuple<T = any> = {
 };
 
 export type PageModuleConfig<Store, Service> = {
-  path: string;
-  component: React.FC;
   store: [Newable<Store>, ClassTuple[] | null];
   service: [Newable<Service>, ClassTuple[] | null];
 };
 
 export type PageModuleInstance<Store, Service> = {
-  Component: React.FC;
   Store: Store;
   Service: Service;
 };
@@ -31,10 +27,7 @@ export function CreatePageModule<Store, Service>(moduleConfig: PageModuleConfig<
   const createdStore = new StoreClass(...(StoreDeps || []).map(ClassTupleCreator));
   const createdService = new ServiceClass(...(ServiceDeps || []).map(ClassTupleCreator));
 
-  const Component = moduleConfig.component;
-
   return {
-    Component,
     Store: createdStore,
     Service: createdService,
   };

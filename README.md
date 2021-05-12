@@ -56,3 +56,17 @@ test.setItem('arrayed', ({ id }) => id === 1, { name: 'test' });
 // Не то, чтобы это очевидная конструкция
 // Но очень полезная!
 ```
+
+## Пример инициализации модуля с зависимостями
+```typescript
+const { Store, Service } = CreatePageModule<PageStore, PageService>({
+  store: [
+    PageStore,
+    [
+      { target: FetchStore, args: [] },    /* controls data's fetch state */
+      { target: TogglersStore, args: [] }, /* controls view mode */
+      { target: TogglersStore, args: [] }, /* controls visibility */
+    ],
+  service: [PageService, null /* no dependencies */],
+});
+```
