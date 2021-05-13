@@ -82,3 +82,20 @@ const { Store, Service } = CreatePageModule<PageStore, PageService>({
   service: [PageService, null /* no dependencies */],
 });
 ```
+
+## Пример использования зависимостей в хранилище
+```typescript
+class PageStore extends Store<PageStoreType> {
+  constructor(
+    readonly fetch: FetchStore,         // автоматически добавляются в поля класса
+    readonly viewMode: TogglersStore,
+    readonly visibility: TogglersStore,
+  ) {
+    // 
+  }
+
+  someMethod() {
+    this.viewMode.set('state', true); // использование зависимости
+  }
+}
+```
