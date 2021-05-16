@@ -17,10 +17,13 @@ export type PageModuleInstance<Store, Service> = {
 };
 
 export function ClassTupleCreator({ target, args = [], instance = false }: ClassTuple): ClassTuple['target'] {
-  return instance ? target : new target(...args);
+  const TargetClass = target; // cause eslint ban constructor name starts with lowercase
+  return instance ? target : new TargetClass(...args);
 }
 
-export function CreatePageModule<Store, Service>(moduleConfig: PageModuleConfig<Store, Service>): PageModuleInstance<Store, Service> {
+export function CreatePageModule<Store, Service>(
+  moduleConfig: PageModuleConfig<Store, Service>,
+): PageModuleInstance<Store, Service> {
   const [StoreClass, StoreDeps] = moduleConfig.store;
   const [ServiceClass, ServiceDeps] = moduleConfig.service;
 

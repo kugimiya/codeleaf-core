@@ -1,15 +1,15 @@
-import { toJS } from "mobx";
-import Store from "./store/Store";
+import { toJS } from 'mobx';
+import Store from './store/Store';
 
 type Item = {
   id: number;
   name: string;
-}
+};
 
 type Test = {
   value: number,
   arrayed: Item[];
-}
+};
 
 class Tested extends Store<Test> {
   constructor() {
@@ -17,7 +17,7 @@ class Tested extends Store<Test> {
       value: 1,
       arrayed: [
         { id: 1, name: 'foo' },
-        { id: 2, name: 'bar' }
+        { id: 2, name: 'bar' },
       ],
     });
   }
@@ -25,9 +25,11 @@ class Tested extends Store<Test> {
 
 const tested = new Tested();
 
+// eslint-disable-next-line no-console
 console.log(toJS(tested.state));
 
 tested.set('value', 2);
-tested.setItem('arrayed', ({ id }) => id === 1, { name: 'test' })
+tested.setItem('arrayed', ({ id }) => id === 1, { name: 'test' });
 
+// eslint-disable-next-line no-console
 console.log(toJS(tested.state));

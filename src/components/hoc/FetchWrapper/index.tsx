@@ -9,7 +9,9 @@ interface FetchWrapperProps {
   isInitialized: () => ReactElement;
 }
 
-const FetchWrapper: FC<FetchWrapperProps> = ({ fetch, isLoading, error, isInitialized }) => {
+const FetchWrapper: FC<FetchWrapperProps> = ({
+  fetch, isLoading, error, isInitialized,
+}) => {
   if (fetch.isLoading) {
     return isLoading();
   }

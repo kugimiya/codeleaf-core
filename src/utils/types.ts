@@ -12,7 +12,7 @@ export type DeepGet<T extends string, O> = T extends `${infer A}.${infer B}`
     ? O[T]
     : never;
 
-export type GlueToPath<K0 extends string, K1 extends string> = `${K0}${K1 extends '' ? '' : '.'}${K1}`
+export type GlueToPath<K0 extends string, K1 extends string> = `${K0}${K1 extends '' ? '' : '.'}${K1}`;
 
 export type DeepKeys<O> = O extends object
   ? {
@@ -20,12 +20,12 @@ export type DeepKeys<O> = O extends object
       ? `${K & string}`
       : `${K & string}` | GlueToPath<K & string, DeepKeys<O[K]>>
   }[keyof O]
-  : ''
+  : '';
 
 export type DeepKeysFiltered<
   Union extends string,
   Dict extends object,
-  FilterType = string
+  FilterType = string,
 > = {
   [K in Union]: DeepGet<K, Dict> extends FilterType ? K : never
 }[Union];
