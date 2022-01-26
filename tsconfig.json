@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
-    "target": "ES2020",
-    "module": "es2020",
-    "lib": ["ES2015", "DOM", "ES2020"],
+    "target": "es5",
+    "module": "CommonJS",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react",
     "declaration": true,
     "declarationMap": true,
@@ -12,11 +12,11 @@
     "rootDir": "./src",
     "removeComments": true,
     "strict": true,
-    
+
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    
+
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   }

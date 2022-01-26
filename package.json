@@ -1,6 +1,6 @@
 {
   "name": "@codeleaf-sdk/core",
-  "version": "2.1.5",
+  "version": "2.1.9",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
